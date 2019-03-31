@@ -21,12 +21,19 @@ class ViewController: UITableViewController {
         return 1
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+       return DataService.instance.getList().count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "ParallaxCell", for: indexPath) as? ParallaxCell {
+            let data = DataService.instance.getList()[indexPath.row]
+            cell.configureCell(withImage: UIImage(named: data.imageName)!, withLabel: data.description)
+            
+            return cell
+        }
         
+        return ParallaxCell()
     }
 
 }
